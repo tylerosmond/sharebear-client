@@ -3,12 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 export const Register = () => {
-  const [email, setEmail] = useState("admina@straytor.com");
-  const [password, setPassword] = useState("straytor");
-  const [firstName, setFirstName] = useState("Admina");
-  const [lastName, setLastName] = useState("Straytor");
-  const [username, setUsername] = useState("Adminastraytor");
-  const existDialog = useRef();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const failureDialog = useRef();
   const navigate = useNavigate();
 
   const handleRegister = (e) => {
@@ -28,22 +28,22 @@ export const Register = () => {
     })
       .then((res) => res.json())
       .then((authInfo) => {
-        if (authInfo && authInfo.token) {
-          localStorage.setItem("sharebear_token", JSON.stringify(authInfo));
+        if (authInfo && authInfo.sharebear_token) {
+          localStorage.setItem("sharebear_token", authInfo.sharebear_token);
           navigate("/");
         } else {
-          existDialog.current.showModal();
+          failureDialog.current.showModal();
         }
       });
   };
 
   return (
     <main className="container--login">
-      <dialog className="dialog dialog--auth" ref={existDialog}>
-        <div>User does not exist</div>
+      <dialog className="dialog dialog--auth" ref={failureDialog}>
+        <div>Registration failed. Please check your details.</div>
         <button
           className="button--close"
-          onClick={(e) => existDialog.current.close()}
+          onClick={(e) => failureDialog.current.close()}
         >
           Close
         </button>
@@ -61,7 +61,7 @@ export const Register = () => {
               value={firstName}
               onChange={(evt) => setFirstName(evt.target.value)}
               className="form-control"
-              placeholder=""
+              placeholder="First Name"
               required
               autoFocus
             />
@@ -74,7 +74,7 @@ export const Register = () => {
               value={lastName}
               onChange={(evt) => setLastName(evt.target.value)}
               className="form-control"
-              placeholder=""
+              placeholder="Last Name"
               required
               autoFocus
             />
@@ -89,7 +89,6 @@ export const Register = () => {
               className="form-control"
               placeholder="Email address"
               required
-              autoFocus
             />
           </fieldset>
           <fieldset className="mb-4">
@@ -102,7 +101,6 @@ export const Register = () => {
               className="form-control"
               placeholder="Username"
               required
-              autoFocus
             />
           </fieldset>
           <fieldset className="mb-4">
