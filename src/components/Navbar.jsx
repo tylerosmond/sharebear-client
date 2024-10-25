@@ -16,17 +16,17 @@ export const NavBar = () => {
       <li className="navbar__item pl-10">
         <NavLink
           className="text-left underline text-blue-600 hover:text-purple-700"
-          to={"/allgames"}
+          to={"/"}
         >
-          All Games
+          All Products
         </NavLink>
       </li>
       <li className="navbar__item pl-10">
         <NavLink
           className="text-left underline text-blue-600 hover:text-purple-700"
-          to={"/mygames"}
+          to={"/"}
         >
-          My Games
+          Wishlist
         </NavLink>
       </li>
       {localStorage.getItem("sharebear_token") !== null ? (
