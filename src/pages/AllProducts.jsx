@@ -12,7 +12,11 @@ export const AllProducts = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setProducts(data);
+        // Sort products by created date in descending order
+        const sortedProducts = data.sort(
+          (a, b) => new Date(b.created) - new Date(a.created)
+        );
+        setProducts(sortedProducts);
       });
   }, []);
 
@@ -22,8 +26,13 @@ export const AllProducts = () => {
   );
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="p-4">
       <h1 className="text-3xl font-bold mb-5">All Products</h1>
+      <Link to="/addProduct">
+        <button className="bg-blue-500 text-white py-2 px-4 mb-4">
+          Add New Product
+        </button>
+      </Link>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {availableProducts.map((product) => (
           <Link key={product.id} to={`/products/${product.id}`}>
