@@ -21,7 +21,8 @@ export const Login = () => {
       .then((authInfo) => {
         if (authInfo.sharebear_token) {
           localStorage.setItem("sharebear_token", authInfo.sharebear_token);
-          navigate("/");
+          localStorage.setItem("user", JSON.stringify(authInfo.user)); // Store user data
+          navigate("/"); // Redirect to the home page or desired page
         } else {
           existDialog.current.showModal();
         }
