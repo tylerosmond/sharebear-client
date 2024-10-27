@@ -34,6 +34,10 @@ export const Register = () => {
         } else {
           failureDialog.current.showModal();
         }
+      })
+      .catch((error) => {
+        console.error("Error during registration:", error);
+        failureDialog.current.showModal();
       });
   };
 
@@ -76,7 +80,6 @@ export const Register = () => {
               className="form-control"
               placeholder="Last Name"
               required
-              autoFocus
             />
           </fieldset>
           <fieldset className="mb-4">
@@ -112,6 +115,7 @@ export const Register = () => {
               onChange={(evt) => setPassword(evt.target.value)}
               className="form-control"
               placeholder="Password"
+              required
             />
           </fieldset>
           <fieldset>
