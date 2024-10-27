@@ -5,6 +5,7 @@ import { Register } from "../pages/Register.jsx";
 import { Home } from "../pages/Home.jsx";
 import { AllProducts } from "../pages/AllProducts.jsx";
 import ProductDetails from "../pages/ProductDetails.jsx";
+import CreateProduct from "../pages/CreateProduct.jsx";
 
 export const ApplicationViews = () => {
   return (
@@ -16,6 +17,7 @@ export const ApplicationViews = () => {
           <Route path="/" element={<Home />} />
           <Route path="/allProducts" element={<AllProducts />} />
           <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="addProduct" element={<CreateProduct />} />
         </Route>
       </Routes>
     </BrowserRouter>
