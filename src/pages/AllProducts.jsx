@@ -6,39 +6,50 @@ export const AllProducts = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch all products
-    fetch("http://localhost:8000/products", {
-      headers: {
-        Authorization: `Token ${localStorage.getItem("sharebear_token")}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Sort products by created date in descending order
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/products", {
+          headers: {
+            Authorization: `Token ${localStorage.getItem("sharebear_token")}`,
+          },
+        });
+        const data = await response.json();
         const sortedProducts = data.sort(
           (a, b) => new Date(b.created) - new Date(a.created)
         );
         setProducts(sortedProducts);
-        setFilteredProducts(sortedProducts); // Initialize filtered products
-      });
+        setFilteredProducts(sortedProducts);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   useEffect(() => {
-    // Fetch categories
-    fetch("http://localhost:8000/categories", {
-      headers: {
-        Authorization: `Token ${localStorage.getItem("sharebear_token")}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/categories", {
+          headers: {
+            Authorization: `Token ${localStorage.getItem("sharebear_token")}`,
+          },
+        });
+        const data = await response.json();
         setCategories(data);
-      });
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
-  // Filter to show only available products
   const availableProducts = filteredProducts.filter(
     (product) => product.status === "available"
   );
@@ -48,16 +59,16 @@ export const AllProducts = () => {
     setSelectedCategory(categoryId);
 
     if (categoryId) {
-      // Filter products based on selected category
       const filtered = products.filter(
         (product) => product.category.id === parseInt(categoryId)
       );
       setFilteredProducts(filtered);
     } else {
-      // Reset to all products if no category is selected
       setFilteredProducts(products);
     }
   };
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="p-4">
@@ -77,7 +88,7 @@ export const AllProducts = () => {
           <option value="">All Categories</option>
           {categories.map((category) => (
             <option key={category.id} value={category.id}>
-              {category.name} {/* Adjust based on your category model */}
+              {category.name}
             </option>
           ))}
         </select>

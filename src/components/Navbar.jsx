@@ -24,7 +24,7 @@ export const NavBar = () => {
       <li className="navbar__item pl-10">
         <NavLink
           className="text-left underline text-blue-600 hover:text-purple-700"
-          to={"/"}
+          to={"/wishlist"}
         >
           Wishlist
         </NavLink>
@@ -43,6 +43,7 @@ export const NavBar = () => {
             className="underline text-blue-600 hover:text-purple-700"
             onClick={() => {
               localStorage.removeItem("sharebear_token");
+              localStorage.removeItem("user");
               navigate("/login");
             }}
           >
