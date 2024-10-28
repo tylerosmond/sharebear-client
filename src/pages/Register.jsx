@@ -30,6 +30,7 @@ export const Register = () => {
       .then((authInfo) => {
         if (authInfo && authInfo.sharebear_token) {
           localStorage.setItem("sharebear_token", authInfo.sharebear_token);
+          localStorage.setItem("user", JSON.stringify(authInfo.user));
           navigate("/");
         } else {
           failureDialog.current.showModal();
