@@ -5,11 +5,12 @@ const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false); // State for delete confirmation modal
   const [showModal, setShowModal] = useState(false);
-  const [wishlistAction, setWishlistAction] = useState(""); // Tracks if adding/removing
-  const [isInWishlist, setIsInWishlist] = useState(false); // Tracks if product is in wishlist
-  const [modalMessage, setModalMessage] = useState(""); // Message for modal
-  const [wishlistItemId, setWishlistItemId] = useState(null); // Add this state to hold the wishlist item ID
+  const [wishlistAction, setWishlistAction] = useState("");
+  const [isInWishlist, setIsInWishlist] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [wishlistItemId, setWishlistItemId] = useState(null);
 
   useEffect(() => {
     fetch(`http://localhost:8000/products/${id}`, {
@@ -37,7 +38,7 @@ const ProductDetails = () => {
         );
         const isInWishlist = Boolean(wishlistItem);
         setIsInWishlist(isInWishlist);
-        setWishlistItemId(wishlistItem ? wishlistItem.id : null); // Save the wishlist item ID if found
+        setWishlistItemId(wishlistItem ? wishlistItem.id : null);
       })
       .catch((error) => {
         console.error("Error fetching wishlist:", error);
@@ -53,9 +54,16 @@ const ProductDetails = () => {
     const body =
       action === "add" ? JSON.stringify({ product_id: product.id }) : undefined;
 
-    // Optimistically update the UI
+    // Update state before the fetch to immediately reflect the UI change
     const wasInWishlist = isInWishlist;
-    setIsInWishlist(action === "add");
+    const newIsInWishlist = action === "add";
+
+    setIsInWishlist(newIsInWishlist);
+
+    // Only update wishlistItemId for add action
+    if (newIsInWishlist) {
+      setWishlistItemId(null); // Reset the ID, we'll fetch it again after adding
+    }
 
     fetch(url, {
       method: method,
@@ -67,7 +75,10 @@ const ProductDetails = () => {
     })
       .then((response) => {
         if (response.ok) {
-          setWishlistAction(action);
+          if (action === "add") {
+            // After adding, we should fetch the updated wishlist
+            checkIfInWishlist(product.id);
+          }
           setModalMessage(
             action === "add"
               ? `${product.name} added to Wishlist!`
@@ -75,8 +86,7 @@ const ProductDetails = () => {
           );
           setShowModal(true);
         } else {
-          // Revert the optimistic update if the request fails
-          setIsInWishlist(wasInWishlist);
+          setIsInWishlist(wasInWishlist); // Revert to previous state
           return response.json().then((errorData) => {
             console.error("Error:", errorData.message);
             setModalMessage("Failed to update wishlist. Please try again.");
@@ -85,11 +95,29 @@ const ProductDetails = () => {
         }
       })
       .catch((error) => {
-        // Revert the optimistic update on network error
-        setIsInWishlist(wasInWishlist);
+        setIsInWishlist(wasInWishlist); // Revert to previous state
         console.error("Network error:", error);
         setModalMessage("Network error. Please try again.");
         setShowModal(true);
+      });
+  };
+
+  const handleDeleteProduct = () => {
+    fetch(`http://localhost:8000/products/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Token ${localStorage.getItem("sharebear_token")}`,
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          navigate("/allProducts"); // Navigate back to all products after deletion
+        } else {
+          console.error("Failed to delete product.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting product:", error);
       });
   };
 
@@ -97,16 +125,18 @@ const ProductDetails = () => {
     setShowModal(false);
   };
 
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+  };
+
   if (!product) {
     return <div>Loading...</div>;
   }
 
-  // Ensure that localStorage is available and contains user data
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
   const isOwner =
     product.owner && loggedInUser && product.owner.id === loggedInUser.id;
 
-  // Function to render additional info based on category
   const renderAdditionalInfo = () => {
     switch (product.category.name) {
       case "Toys":
@@ -148,7 +178,7 @@ const ProductDetails = () => {
           </button>
           <button
             className="bg-red-500 text-white py-2 px-4"
-            onClick={() => setShowModal(true)}
+            onClick={() => setShowDeleteModal(true)}
           >
             Delete
           </button>
@@ -184,6 +214,26 @@ const ProductDetails = () => {
               onClick={handleCloseModal}
             >
               OK
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showDeleteModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-5 rounded shadow-lg">
+            <h2>Are you sure you want to delete this product?</h2>
+            <button
+              className="bg-red-500 text-white py-2 px-4 mt-4"
+              onClick={handleDeleteProduct}
+            >
+              Yes
+            </button>
+            <button
+              className="bg-gray-500 text-white py-2 px-4 mt-4"
+              onClick={handleCloseDeleteModal}
+            >
+              Cancel
             </button>
           </div>
         </div>
