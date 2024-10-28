@@ -26,7 +26,7 @@ const ProductDetails = () => {
         Authorization: `Token ${localStorage.getItem("sharebear_token")}`,
       },
     }).then(() => {
-      navigate("/"); // Redirect to All Products after deletion
+      navigate("/allProducts"); // Redirect to All Products after deletion
     });
   };
 
