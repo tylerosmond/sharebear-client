@@ -39,6 +39,22 @@ const ProductDetails = () => {
   const isOwner =
     product.owner && loggedInUser && product.owner.id === loggedInUser.id;
 
+  // Function to render additional info based on category
+  const renderAdditionalInfo = () => {
+    switch (product.category.name) {
+      case "Toys":
+        return (
+          <p>Minimum Age: {product.min_age ? product.min_age.age : "N/A"}</p>
+        );
+      case "Clothing":
+        return <p>Size: {product.size.size || "N/A"}</p>;
+      case "Accessories":
+        return <p>Weight Limit: {product.max_weight.weight || "N/A"}</p>;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-3xl font-bold">{product.name}</h1>
@@ -49,6 +65,7 @@ const ProductDetails = () => {
       />
       <p className="text-lg">{product.description}</p>
       <p>Category: {product.category.name}</p>
+      {renderAdditionalInfo()}
       <p>Condition: {product.condition.condition}</p>
       <p>Owner: {product.owner.username}</p>
       <p>Status: {product.status}</p>
@@ -58,7 +75,7 @@ const ProductDetails = () => {
         <div className="mt-4">
           <button
             className="bg-blue-500 text-white py-2 px-4 mr-2"
-            onClick={() => navigate(`/edit-product/${id}`)}
+            onClick={() => navigate(`/editProduct/${id}`)} // Ensure route matches your Edit Product component
           >
             Edit
           </button>
