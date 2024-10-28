@@ -6,6 +6,7 @@ import { Home } from "../pages/Home.jsx";
 import { AllProducts } from "../pages/AllProducts.jsx";
 import ProductDetails from "../pages/ProductDetails.jsx";
 import CreateProduct from "../pages/CreateProduct.jsx";
+import EditProduct from "../pages/EditProduct.jsx";
 
 export const ApplicationViews = () => {
   return (
@@ -18,6 +19,7 @@ export const ApplicationViews = () => {
           <Route path="/allProducts" element={<AllProducts />} />
           <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="addProduct" element={<CreateProduct />} />
+          <Route path="editProduct/:id" element={<EditProduct />} />
         </Route>
       </Routes>
     </BrowserRouter>
