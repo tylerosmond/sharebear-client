@@ -60,7 +60,7 @@ export const Wishlist = () => {
           <li key={item.id} className="border-b py-2">
             {/* Placeholder image */}
             <img
-              src="https://via.placeholder.com/150"
+              src={item.product.product_img}
               alt="Product"
               className="w-full h-40 object-cover mb-4"
             />

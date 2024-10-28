@@ -99,7 +99,7 @@ export const AllProducts = () => {
             <div className="border rounded-lg shadow-lg p-4">
               {/* Placeholder image */}
               <img
-                src="https://via.placeholder.com/150"
+                src={product.product_img}
                 alt="Product"
                 className="w-full h-40 object-cover mb-4"
               />
