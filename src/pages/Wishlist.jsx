@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
@@ -54,27 +55,46 @@ export const Wishlist = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold">Your Wishlist</h1>
-      <ul className="mt-4">
+      <h1 className="text-4xl text-center font-bold mb-5">Your Wishlist</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {wishlistItems.map((item) => (
-          <li key={item.id} className="border-b py-2">
-            {/* Placeholder image */}
-            <img
-              src={item.product.product_img}
-              alt="Product"
-              className="w-full h-40 object-cover mb-4"
-            />
-            <h2 className="text-lg">{item.product.name}</h2>
-            <p>{item.product.description}</p>
-            <button
-              className="bg-red-500 text-white py-1 px-3 mt-2"
-              onClick={() => removeFromWishlist(item.id)}
-            >
-              Remove from Wishlist
-            </button>
-          </li>
+          <div
+            key={item.id}
+            className="border rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow"
+          >
+            <Link to={`/products/${item.product.id}`}>
+              <img
+                src={
+                  item.product.product_img || "https://via.placeholder.com/150"
+                }
+                alt="Product"
+                className="w-full h-64 object-contain mb-6 rounded-lg bg-gray-100"
+              />
+            </Link>
+            <h2 className="text-3xl text-center font-semibold">
+              {item.product.name}
+            </h2>
+            <p className="text-gray-600 text-center mb-4">
+              {item.product.description}
+            </p>
+            <p className="text-center">
+              <span className="font-semibold">Condition:</span>{" "}
+              {item.product.condition.condition}
+              {" - "}
+              <span className="font-semibold">Owner:</span>{" "}
+              {item.product.owner.username}
+            </p>
+            <div className="flex justify-center mt-2">
+              <button
+                className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                onClick={() => removeFromWishlist(item.id)}
+              >
+                Remove from Wishlist
+              </button>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
