@@ -23,7 +23,7 @@ export const Home = () => {
         <h2 className="text-2xl font-semibold mb-4">About ShareBear</h2>
         <p className="text-gray-600">
           {/* Replace this text with your actual "About" content */}
-          ShareBear is a platform designed to make it easy for families to share
+          ShareBear is a platform designed for families to easily share
           gently-used items like toys, clothing, and accessories with their
           community. Many of these items are quickly outgrown, taking up space
           and often going unused. ShareBear provides a simple, community-driven
@@ -41,8 +41,6 @@ export const Home = () => {
           </button>
         </Link>
       </div>
-
-      {/* Explore Products Section */}
     </div>
   );
 };
