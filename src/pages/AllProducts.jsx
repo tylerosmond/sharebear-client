@@ -89,7 +89,7 @@ export const AllProducts = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-3xl font-bold mb-5 text-center">All Products</h1>
+      <h1 className="text-4xl font-bold mb-5 text-center">All Products</h1>
       <div className="flex justify-center mb-4">
         <Link to="/addProduct">
           <button className="bg-blue-500 text-white py-2 px-4">
@@ -130,11 +130,18 @@ export const AllProducts = () => {
                 <img
                   src={product.product_img || "placeholder-image-url"}
                   alt="Product"
-                  className="w-full h-40 object-cover mb-4"
+                  className="w-full h-64 object-contain mb-6 rounded-lg bg-gray-100"
                 />
-                <h2 className="text-lg font-semibold">{product.name}</h2>
-                <p>Condition: {product.condition.condition}</p>
-                <p>Owner: {product.owner.username}</p>
+                <h2 className="text-3xl font-semibold text-center">
+                  {product.name}
+                </h2>
+                <p className="text-center">
+                  <span className="font-semibold">Condition:</span>{" "}
+                  {product.condition.condition}
+                  {" - "}
+                  <span className="font-semibold">Owner:</span>{" "}
+                  {product.owner.username}
+                </p>
               </div>
             </Link>
           ))

@@ -141,7 +141,7 @@ const ProductDetails = () => {
     switch (product.category.name) {
       case "Toys":
         return (
-          <p>Minimum Age: {product.min_age ? product.min_age.age : "N/A"}</p>
+          <p>Minimum Age: {product.min_age ? product.min_age.age : "N/A"}+</p>
         );
       case "Clothing":
         return <p>Size: {product.size.size || "N/A"}</p>;
@@ -154,90 +154,123 @@ const ProductDetails = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-3xl font-bold">{product.name}</h1>
-      <img
-        src={product.product_img || "https://via.placeholder.com/150"}
-        alt={product.name}
-        className="w-full h-64 object-cover mb-4"
-      />
-      <p className="text-lg">{product.description}</p>
-      <p>Category: {product.category.name}</p>
-      {renderAdditionalInfo()}
-      <p>Condition: {product.condition.condition}</p>
-      <p>Owner: {product.owner.username}</p>
-      <p>Status: {product.status}</p>
-      <p>Created On: {new Date(product.created).toLocaleDateString()}</p>
+      <h1 className="text-3xl font-bold text-center mb-5">{product.name}</h1>
+      <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
+        {/* Product Image */}
+        <img
+          src={product.product_img || "https://via.placeholder.com/150"}
+          alt={product.name}
+          className="w-full h-64 object-contain mb-6 rounded-lg bg-gray-100"
+        />
 
-      {isOwner && (
-        <div className="mt-4">
-          <button
-            className="bg-blue-500 text-white py-2 px-4 mr-2"
-            onClick={() => navigate(`/editProduct/${id}`)}
-          >
-            Edit
-          </button>
-          <button
-            className="bg-red-500 text-white py-2 px-4"
-            onClick={() => setShowDeleteModal(true)}
-          >
-            Delete
-          </button>
-        </div>
-      )}
+        {/* Product Description */}
+        <p className="text-lg text-center mb-6">{product.description}</p>
+        <p className="text-lg text-center mb-6">{renderAdditionalInfo()}</p>
 
-      {!isOwner && (
-        <div className="mt-4">
-          {isInWishlist ? (
-            <button
-              className="bg-red-500 text-white py-2 px-4"
-              onClick={() => handleWishlist("remove")}
-            >
-              Remove from Wishlist
-            </button>
-          ) : (
-            <button
-              className="bg-green-500 text-white py-2 px-4"
-              onClick={() => handleWishlist("add")}
-            >
-              Add to Wishlist
-            </button>
-          )}
-        </div>
-      )}
+        {/* Product Details (2 columns) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 justify-center text-center mb-6">
+          <div>
+            <p>
+              <span className="font-semibold">Category:</span>{" "}
+              {product.category.name}
+            </p>
+            <p>
+              <span className="font-semibold">Condition:</span>{" "}
+              {product.condition.condition}
+            </p>
+          </div>
+          <div>
+            <p>
+              <span className="font-semibold">Owner:</span>{" "}
+              {product.owner.username}
+            </p>
+            <p>
+              <span className="font-semibold">Status:</span> {product.status}
+            </p>
+          </div>
 
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-5 rounded shadow-lg">
-            <h2>{modalMessage}</h2>
-            <button
-              className="bg-blue-500 text-white py-2 px-4 mt-4"
-              onClick={handleCloseModal}
-            >
-              OK
-            </button>
+          {/* Date Created (centered below both columns) */}
+          <div className="col-span-full mt-4">
+            <p>
+              <span className="font-semibold">Created On:</span>{" "}
+              {new Date(product.created).toLocaleDateString()}
+            </p>
           </div>
         </div>
-      )}
 
-      {showDeleteModal && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-5 rounded shadow-lg">
-            <h2>Are you sure you want to delete this product?</h2>
+        {/* Buttons */}
+        {isOwner && (
+          <div className="mt-4 flex justify-center gap-4">
             <button
-              className="bg-red-500 text-white py-2 px-4 mt-4"
-              onClick={handleDeleteProduct}
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+              onClick={() => navigate(`/editProduct/${id}`)}
             >
-              Yes
+              Edit
             </button>
             <button
-              className="bg-gray-500 text-white py-2 px-4 mt-4"
-              onClick={handleCloseDeleteModal}
+              className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+              onClick={() => setShowDeleteModal(true)}
             >
-              Cancel
+              Delete
             </button>
           </div>
-        </div>
-      )}
+        )}
+
+        {!isOwner && (
+          <div className="mt-4 flex justify-center">
+            {isInWishlist ? (
+              <button
+                className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                onClick={() => handleWishlist("remove")}
+              >
+                Remove from Wishlist
+              </button>
+            ) : (
+              <button
+                className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600"
+                onClick={() => handleWishlist("add")}
+              >
+                Add to Wishlist
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Modals */}
+        {showModal && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-5 rounded shadow-lg">
+              <h2>{modalMessage}</h2>
+              <button
+                className="bg-blue-500 text-white py-2 px-4 mt-4"
+                onClick={handleCloseModal}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        )}
+
+        {showDeleteModal && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-5 rounded shadow-lg">
+              <h2>Are you sure you want to delete this product?</h2>
+              <button
+                className="bg-red-500 text-white py-2 px-4 mt-4"
+                onClick={handleDeleteProduct}
+              >
+                Yes
+              </button>
+              <button
+                className="bg-gray-500 text-white py-2 px-4 mt-4"
+                onClick={handleCloseDeleteModal}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
