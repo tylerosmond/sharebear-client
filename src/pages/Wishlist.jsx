@@ -55,12 +55,12 @@ export const Wishlist = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-4xl text-center font-bold mb-5">Your Wishlist</h1>
+      <h1 className="text-7xl text-center font-bold mb-5">Wishlist</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {wishlistItems.map((item) => (
           <div
             key={item.id}
-            className="border rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow"
+            className="border rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow bg-white"
           >
             <Link to={`/products/${item.product.id}`}>
               <img
@@ -68,7 +68,7 @@ export const Wishlist = () => {
                   item.product.product_img || "https://via.placeholder.com/150"
                 }
                 alt="Product"
-                className="w-full h-64 object-contain mb-6 rounded-lg bg-gray-100"
+                className="w-full h-64 object-contain mb-6 rounded-lg bg-white"
               />
             </Link>
             <h2 className="text-3xl text-center font-semibold">
