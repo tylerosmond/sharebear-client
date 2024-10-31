@@ -8,6 +8,7 @@ import ProductDetails from "../pages/ProductDetails.jsx";
 import CreateProduct from "../pages/CreateProduct.jsx";
 import EditProduct from "../pages/EditProduct.jsx";
 import Wishlist from "../pages/Wishlist.jsx";
+import { Profile } from "../pages/Profile.jsx";
 
 export const ApplicationViews = () => {
   return (
@@ -22,6 +23,7 @@ export const ApplicationViews = () => {
           <Route path="addProduct" element={<CreateProduct />} />
           <Route path="editProduct/:id" element={<EditProduct />} />
           <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>
