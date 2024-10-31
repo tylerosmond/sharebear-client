@@ -37,7 +37,7 @@ export const NavBar = () => {
         <li>
           <NavLink
             className="underline text-blue-600 hover:text-purple-700"
-            to={"/"}
+            to={"/profile"}
           >
             Profile
           </NavLink>
