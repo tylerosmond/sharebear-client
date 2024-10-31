@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    background-color: #E3F2FD; /* Light Gray */
+    color: #333; /* Darker text color for readability */
+    margin: 0; /* Reset default margin */
+    font-family: Arial, sans-serif; /* Optional: set a default font */
+  }

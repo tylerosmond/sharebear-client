@@ -5,9 +5,8 @@ const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false); // State for delete confirmation modal
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [wishlistAction, setWishlistAction] = useState("");
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [wishlistItemId, setWishlistItemId] = useState(null);

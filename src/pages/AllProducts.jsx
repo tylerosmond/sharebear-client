@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import { Link } from "react-router-dom";
 
 export const AllProducts = () => {
   const [products, setProducts] = useState([]);
@@ -65,12 +65,12 @@ export const AllProducts = () => {
           product.condition.condition &&
           product.condition.condition
             .toLowerCase()
-            .includes(searchQuery.toLowerCase())) || // Correct access to condition
+            .includes(searchQuery.toLowerCase())) ||
         product.owner.username.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     setFilteredProducts(searchResults);
-  }, [searchQuery, selectedCategory, products]); // Include selectedCategory here
+  }, [searchQuery, selectedCategory, products]);
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -89,7 +89,7 @@ export const AllProducts = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-4xl font-bold mb-5 text-center">All Products</h1>
+      <h1 className="text-7xl font-bold mb-5 text-center">All Products</h1>
       <div className="flex justify-center mb-4">
         <Link to="/addProduct">
           <button className="bg-blue-500 text-white py-2 px-4">
@@ -126,11 +126,11 @@ export const AllProducts = () => {
         {availableProducts.length > 0 ? (
           availableProducts.map((product) => (
             <Link key={product.id} to={`/products/${product.id}`}>
-              <div className="border rounded-lg shadow-lg p-4 transition-transform duration-100 ease-in-out transform hover:shadow-xl hover:scale-105">
+              <div className="border rounded-lg shadow-lg p-4 transition-transform duration-100 ease-in-out transform hover:shadow-xl hover:scale-105 bg-white">
                 <img
                   src={product.product_img || "placeholder-image-url"}
                   alt="Product"
-                  className="w-full h-64 object-contain mb-6 rounded-lg bg-gray-100"
+                  className="w-full h-64 object-contain mb-6 rounded-lg bg-white"
                 />
                 <h2 className="text-3xl font-semibold text-center">
                   {product.name}
